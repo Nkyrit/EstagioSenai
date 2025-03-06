@@ -1,0 +1,20 @@
+# Define usuários e arquivos
+$demitidos = @("Julia_Liss", "Leonardo_leite", "Samuel_Castro")
+$arquivo = "C:\Relatorios\demitidos.txt"
+$relatorio = "C:\Relatorios\relatorio_demitidos.csv"
+
+# Salva a lista e verifica o módulo AD
+$demitidos | Set-Content $arquivo
+if (-not (Get-Module -ListAvailable -Name ActiveDirectory)) { exit }
+
+# Processa usuários
+$demitidos | ForEach-Object {
+    $user = Get-ADUser -Filter {SamAccountName -eq $_} -Properties MemberOf
+    if ($user) {
+        Disable-ADAccount -Identity $user
+        $user.MemberOf | ForEach-Object { Remove-ADGroupMember -Identity $_ -Members $user -Confirm:$false }
+        [PSCustomObject]@{ Usuario = $_; Status = "Desativado"; Data = Get-Date } | Export-Csv -Path $relatorio -Append -NoTypeInformation
+    }
+}
+
+Write-Host "Processo concluído. Relatório salvo em $relatorio."

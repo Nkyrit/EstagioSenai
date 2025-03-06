@@ -1,0 +1,46 @@
+Instale-o com:
+Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
+
+
+O comando Install-ADDSForest faz parte do módulo ADDSDeployment. Após a instalação do AD DS, importe o módulo utilizando:
+Import-Module ADDSDeployment
+
+
+Em seguida, confirme se o comando está disponível:
+Get-Command Install-ADDSForest
+
+Install-ADDSForest `
+  -DomainName "exemplo.local" `
+  -DomainNetbiosName "EXEMPLO" `
+  -SafeModeAdministratorPassword (ConvertTo-SecureString "SenhaComplexa@123" -AsPlainText -Force) `
+  -InstallDNS:$true `
+  -Force
+
+Get-WindowsFeature -Name AD-Domain-Services
+
+
+Verificar os Diretórios de Módulos
+Get-Module -ListAvailable
+
+
+Para visualizar as especificações do Active Directory:
+Get-ADDomain
+Esse comando retorna informações como:
+
+Name: O nome completo do domínio (por exemplo, exemplo.local).
+DistinguishedName: O nome distinto (DN) do domínio no Active Directory.
+DomainMode: O nível funcional do domínio (por exemplo, Windows Server 2016).
+Forest: O nome da floresta à qual o domínio pertence.
+ReplicaServers: Lista de servidores que são réplicas do domínio.
+PDCEmulator: O controlador de domínio que está funcionando como o PDC (Primary Domain Controller) emulador.
+SchemaMaster: O controlador de domínio responsável pelo esquema do Active Directory.
+
+
+Cria a OU para Usuários
+New-ADOrganizationalUnit -Name "Usuarios" -Path "DC=exemplo,DC=local"
+
+Cria a OU para Computadores
+New-ADOrganizationalUnit -Name "Computadores" -Path "DC=exemplo,DC=local"
+
+Opcional: Cria a OU para contas inativas (para movimentação posterior)
+New-ADOrganizationalUnit -Name "Inativos" -Path "DC=exemplo,DC=local"

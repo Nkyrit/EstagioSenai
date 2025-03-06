@@ -1,0 +1,33 @@
+$DiasInatividade = 90
+$DataLimite = (Get-Date).AddDays(-$DiasInatividade)
+
+$ContasInativas = Get-ADUser -Filter {LastLogonDate -lt $DataLimite -and Enabled -eq $true} -Properties LastLogonDate
+
+$CaminhoRelatorio = "C:\Relatorios\ContasInativas.csv"
+
+If (!(Test-Path "C:\Relatorios")) {
+    New-Item -ItemType Directory -Path "C:\Relatorios"
+}
+
+if ($ContasInativas) {
+    $ContasInativas | Select-Object Name, SamAccountName, LastLogonDate | Export-Csv -Path $CaminhoRelatorio -NoTypeInformation
+    Write-Host "Relatório de contas inativas gerado em $CaminhoRelatorio"
+
+    foreach ($Conta in $ContasInativas) {
+        Disable-ADAccount -Identity $Conta.SamAccountName
+        Write-Host "Conta bloqueada: $($Conta.SamAccountName)"
+    }
+
+    Write-Host "`nProcesso concluído. Contas inativas foram bloqueadas."
+} else {
+    Write-Host "Não existem contas para ficarem inativas no momento."
+}
+
+$ContasDesabilitadas = Get-ADUser -Filter {Enabled -eq $false} -Properties SamAccountName, Name
+
+if ($ContasDesabilitadas) {
+    Write-Host "`nContas já desabilitadas:"
+    $ContasDesabilitadas | Select-Object Name, SamAccountName | Format-Table -AutoSize
+} else {
+    Write-Host "`nNenhuma conta desabilitada encontrada."
+}

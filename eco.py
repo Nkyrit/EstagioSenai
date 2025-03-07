@@ -1,6 +1,8 @@
 import socket
+import subprocess
+import psutil
 
-def comecando_server(host="0.0.0.0", port=12345):
+def comecando_server(host="0.0.0.0", port=15000):
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     server.bind((host, port))
@@ -16,11 +18,20 @@ def comecando_server(host="0.0.0.0", port=12345):
             while True:
                 data = client_novo.recv(1024)
                 if not data:
-                    break  
+                    break
 
-                print(f"Recebido: {data.decode('utf-8')}")
+                mensagem = data.decode('utf-8')
+                print(f"Recebido: {mensagem}")  
+
+                if mensagem.lower() == "calc":
+                    print("Abrindo a calculadora")
+                    subprocess.Popen("calc")
+                    client_novo.sendall("Calculadora funcionando".encode('utf-8'))
                 
-                client_novo.sendall(data)
+                else:client_novo.sendall(data)
+
+
+                
 
         except Exception as e:
             print(f"Erro: {e}")

@@ -1,6 +1,0 @@
-Vendo Grupos já criados:
-Get-ADGroup -Filter *
-
-Criando Grupos em Powershell
-
-New-ADGroup -Name "Produção" -SamAccountName "Produção" -GroupCategory Security -GroupScope Global -Path "OU=DOmain Controllers,DC=exemplo,DC=local"

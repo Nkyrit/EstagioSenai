@@ -1,0 +1,37 @@
+Instale-o com:
+Install-WindowsFeature -Name AD-Domain-Services -IncludeManagementTools
+
+
+O comando Install-ADDSForest faz parte do módulo ADDSDeployment. Após a instalação do AD DS, importe o módulo utilizando:
+Import-Module ADDSDeployment
+
+
+Em seguida, confirme se o comando está disponível:
+Get-Command Install-ADDSForest
+
+Install-ADDSForest
+
+Get-WindowsFeature -Name AD-Domain-Services
+
+
+Verificar os Diretórios de Módulos
+Get-Module -ListAvailable
+
+
+Para visualizar as especificações do Active Directory:
+Get-ADDomain
+Esse comando retorna informações como:
+
+Name: O nome completo do domínio (por exemplo, exemplo.local).
+DistinguishedName: O nome distinto (DN) do domínio no Active Directory.
+DomainMode: O nível funcional do domínio (por exemplo, Windows Server 2016).
+Forest: O nome da floresta à qual o domínio pertence.
+ReplicaServers: Lista de servidores que são réplicas do domínio.
+PDCEmulator: O controlador de domínio que está funcionando como o PDC (Primary Domain Controller) emulador.
+SchemaMaster: O controlador de domínio responsável pelo esquema do Active Directory.
+
+
+OU: OUs (Unidades Organizacionais) são contêineres lógicos usados para organizar objetos no Active Directory, como usuários, computadores, grupos e outras OUs. Elas ajudam a organizar os objetos de maneira hierárquica e permitem aplicar políticas (como GPOs) a esses objetos.
+
+Cria a OU para Usuários
+New-ADOrganizationalUnit -Name "Usuarios" -Path "DC=exemplo,DC=local"

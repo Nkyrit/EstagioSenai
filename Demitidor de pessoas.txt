@@ -1,9 +1,6 @@
-# Define usuários e arquivos
-$demitidos = @("Julia_Liss", "Leonardo_leite", "Samuel_Castro")
-$arquivo = "C:\Relatorios\demitidos.txt"
-$relatorio = "C:\Relatorios\relatorio_demitidos.csv"
+$arquivo = "C:\Users\sherlock\Relatorios\listaparademi.csv"
+$relatorio = "C:\Users\sherlock\Relatorios\foramdemi.csv"
 
-# Salva a lista e verifica o módulo AD
 $demitidos | Set-Content $arquivo
 if (-not (Get-Module -ListAvailable -Name ActiveDirectory)) { exit }
 

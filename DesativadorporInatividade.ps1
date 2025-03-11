@@ -13,7 +13,7 @@ $UsuariosCSV = Import-Csv -Path $CaminhoArquivoCSV -Delimiter ";"
 
 $ContasInativas = Get-ADUser -Filter {LastLogonDate -lt $DataLimite -and Enabled -eq $true} -Properties LastLogonDate
 if ($ContasInativas) {
-    $ContasInativas | Select-Object Name, SamAccountName, LastLogonDate | Export-Csv -Path $CaminhoRelatorio -NoTypeInformation
+    $ContasInativas | Select-Object Name, SamAccountName, LastLogonDate | Export-Csv -Path $CaminhoRelatorio -NoTypeInformation -Append
     Write-Host "Relatório de contas inativas gerado em $CaminhoRelatorio"
 
     foreach ($Conta in $ContasInativas) {

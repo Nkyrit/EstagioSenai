@@ -32,13 +32,13 @@ foreach ($linha in $usuarios) {
 
     if (-not (Get-ADUser -Filter {SamAccountName -eq $username})) {
 ..........
-} else {
+}     else {
 Write-Host "Usuário $username já existe..."
 }
 
     if (-not (Get-ADGroup -Filter {Name -eq $grupo})) {
 .....
-} else {
+}     else {
 Write-Host "Grupo $grupo já existe..."
 }
 

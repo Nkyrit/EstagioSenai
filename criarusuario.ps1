@@ -1,34 +1,50 @@
-$arquivoUsuarios = "C:\Users\Sherlock\Relatorios\listausuarios.csv"
-$SPadrao = "Sherlock123!"
-$dominio = "exemplo.local" 
+$usuarios = Get-Content "C:\Users\Relatorios\listausuarios.txt"
 
-$usuarios = Import-Csv -Path "C:\Users\Sherlock\Relatorios\listausuarios.csv" -Delimiter ";"
-$usuarios | ForEach-Object { Write-Host "Usuario encontrado: $($_.Nome), Grupo: $($_.Grupo)" }
+foreach ($linha in $usuarios) {
+$dados = $linha -split ";"
+$username = $dados[0]
+$group = $dados[1]
+$password = ConvertTo-SecureString "Sherlock#123654" -AsPlainText -Force
+New-ADUser -SamAccountName $username `
+    -UserPrincipalName "$username@exemplo.local" `
+    -Name $username `
+    -GivenName ($username -split "_")[0] `
+    -Surname ($username -split "_")[1] `
+    -Path "OU=Usuarios,DC=exemplo,DC=local" `
+    -AccountPassword $password `
+    -Enabled $true `
+    -ChangePasswordAtLogon $true
+}
 
-
-foreach ($usuario in $usuarios) {
-    $SamAccountName = $usuario.Nome
-    $UPN = "$SamAccountName@$dominio"
-    $grupo = $usuario.Grupo
-
-    if (-not (Get-ADUser -Filter {SamAccountName -eq $SamAccountName} -ErrorAction SilentlyContinue)) {
-        New-ADUser -Name $usuario.Nome `
-                   -SamAccountName $SamAccountName `
-                   -UserPrincipalName $UPN `
-                   -AccountPassword (ConvertTo-SecureString $SPadrao -AsPlainText -Force) `
-                   -Enabled $true `
-                   -ChangePasswordAtLogon $true `
-                   -Path "CN=Users,DC=exemplo,DC=local"
-    } else {
-        Write-Host "Usuario $SamAccountName ja existe. Pulando criacao..."
+$grupos = $usuarios | ForEach-Object { ($_ -split ";")[1] } | Select-Object -Unique
+foreach ($grupo in $grupos) {
+    if (-not (Get-ADGroup -Filter {Name -eq $grupo})) {
+        New-ADGroup -Name $grupo -GroupScope Global -Path "OU=Grupos,DC=exemplo,DC=local"
     }
+}
 
-    if (-not (Get-ADGroup -Filter {Name -eq $grupo} -ErrorAction SilentlyContinue)) {
-         New-ADGroup -Name $grupo -GroupScope Global -GroupCategory Security -Path "CN=Users,DC=exemplo,DC=local"
-         Write-Host "Grupo $grupo criado."
-    }
+foreach ($linha in $usuarios) {
+    $dados = $linha -split ";"
+    $username = $dados[0]
+    $group = $dados[1]
+    Add-ADGroupMember -Identity $group -Members $username
+}
 
+    if (-not (Get-ADUser -Filter {SamAccountName -eq $username})) {
+..........
+} else {
+Write-Host "Usuário $username já existe..."
+}
 
-    Add-ADGroupMember -Identity $grupo -Members $SamAccountName
-    Write-Host "Usuario $SamAccountName adicionado ao grupo $grupo."
+    if (-not (Get-ADGroup -Filter {Name -eq $grupo})) {
+.....
+} else {
+Write-Host "Grupo $grupo já existe..."
+}
+
+    if (-not (Get-ADGroupMember -Identity $group | Where-Object { $_.SamAccountName -eq
+$username })) {
+....
+}     else {
+Write-Host "Usuário $username já está no grupo $group..."
 }

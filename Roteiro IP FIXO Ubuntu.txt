@@ -38,7 +38,7 @@ network:
 
 sudo netplan apply
 
-Caso de Aviso de permissão:
+Em caso de aviso de permissão:
 
 sudo chmod 600 /etc/netplan/01-network-manager-all.yaml
 

@@ -82,3 +82,5 @@ ip a
 ip route
 ping 192.168.194.2
 ping 8.8.8.8
+
+Reinicie a máquina e verifique se continua com as novas configurações.

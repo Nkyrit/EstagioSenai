@@ -15,8 +15,8 @@ netsh interface ipv4 add dns name="Ethernet0" 8.8.4.4 index=2
 
 Verificar:
 
-ping: 192.168.194.2
-ping: 8.8.8.8
-ping: 8.8.4.4
+ping 192.168.194.2
+ping 8.8.8.8
+ping 8.8.4.4
 
 Reinicie a máquina e verifique se continua com as novas configurações.

@@ -20,6 +20,8 @@ ls
 
 sudo nano 01-network-manager-all.yaml
 
+(Escreva na exata ordem e espaçamentos)
+
 network:
   version: 2
   renderer: networkd 
@@ -35,6 +37,9 @@ network:
         addresses:
           - 8.8.8.8
           - 8.8.4.4
+
+CRTL O (Para salvar o arquivo) Enter (Mantenha o mesmo nome)
+CRTL X (Para fechar o arquivo)
 
 sudo netplan apply
 

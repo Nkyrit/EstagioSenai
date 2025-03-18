@@ -18,3 +18,5 @@ Verificar:
 Ping: 192.168.194.2
 Ping: 8.8.8.8
 Ping: 8.8.4.4
+
+Reinicie a máquina e verifique se continua com as novas configurações.

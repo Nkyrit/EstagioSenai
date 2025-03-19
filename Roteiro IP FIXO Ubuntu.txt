@@ -10,7 +10,7 @@ DNS: 8.8.8.8
 
 ls
 
-cd etc
+cd /etc
 
 ls
 

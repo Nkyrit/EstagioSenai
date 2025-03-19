@@ -75,7 +75,7 @@ Verifique:
 ip a
 ip Route
 
-Para fixar o static quando reiniciar a máquina, entre também no arquivo:
+Caso ainda tenham duas routas e para fixar o static quando reiniciar a máquina, entre também no arquivo:
 
 sudo nano 50-cloud-init.yaml
 

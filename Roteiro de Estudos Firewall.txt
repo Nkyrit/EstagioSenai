@@ -1,0 +1,77 @@
+Roteiro de Estudos Firewall:
+
+Execute o PowerShell como Administrador.
+
+Se quiser verificar os perfis disponíveis e os detalhes da rede atual, use:
+
+Get-NetFirewallProfile
+
+Habilitar o firewall em todos os perfis:
+
+Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled True
+
+Desabilitar: 
+
+Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
+
+
+Habilitar e Desabilitar o Firewall para um Perfil Específico:
+
+Set-NetFirewallProfile -Profile (Escolha o perfil, Domain, Public ou Private) -Enabled True
+
+Set-NetFirewallProfile -Profile (Escolha o perfil, Domain, Public ou Private) -Enabled False
+
+Listar Todas as regras:
+
+Get-NetFirewallRule
+
+Criar uma regra para permitir tráfego na porta 8080 (HTTP):
+
+New-NetFirewallRule -DisplayName "Permitir HTTP" -Direction Inbound -Protocol TCP -LocalPort 8080 -Action Allow
+				 ("Permitir HTTP" Pode ser trocado para outro nome, isso serve para os outros comandos também.)
+
+Criar uma regra para bloquear o tráfego na porta 8080 (HTTP):
+
+New-NetFirewallRule -DisplayName "Bloquear HTTP" -Direction Inbound -Protocol TCP -LocalPort 8080 -Action Block
+
+Podemos testar isso com um servidor Python: python -m http.server 8080
+
+Agora, de outra máquina ou dispositivo na mesma rede, você pode testar se o servidor está acessível.
+
+http://192.168.194.138:8080
+
+
+Permitir Tráfego para um Programa Específico (Exemplo: Opera Gx)
+
+New-NetFirewallRule -DisplayName "Permitir Navegador" -Direction Inbound -Program "C:\Users\sherlock\AppData\Local\Programs\Opera GX\opera.exe" -Action Allow
+										  ("Não esqueça de trocar o local do aplicativo que quiser habilitar")
+Bloquear Tráfego para um Programa Específico (Exemplo: Opera Gx)
+New-NetFirewallRule -DisplayName "Bloquear Navegador" -Direction Outbound -Program "C:\Users\sherlock\AppData\Local\Programs\Opera GX\opera.exe" -Action Block
+
+
+Permitir Tráfego de um IP Específico:
+New-NetFirewallRule -DisplayName "Permitir IP" -Direction Inbound -RemoteAddress 192.168.194.138 -Action Allow
+									    (Troque o IP pelo qual você quer permitir)
+Bloquear IP Específico:
+New-NetFirewallRule -DisplayName "Bloquear IP" -Direction Inbound -RemoteAddress 192.168.194.138 -Action Block
+										 (Troque o IP pelo qual você quer bloquear)
+
+Pela máquina bloqueada testar use:
+ping 192.168.194.138
+     (IP da máquina ao qual você atribuiu a regra)
+
+
+Bloquear Tráfego em  uma Porta Específica:										
+New-NetFirewallRule -DisplayName "Bloquear Porta" -Direction Inbound -Protocol TCP -LocalPort 445 -Action Block
+
+Para testar abre o Explorador de Arquivos na sua máquina física e escreva o seguinte comando: \\192.168.194.138 (IP dá sua máquina virtual) 
+
+Bloquear Tráfego de um Intervalo de IPs:
+New-NetFirewallRule -DisplayName "Bloquear Intervalo de IPs" -Direction Inbound -RemoteAddress 192.168.194.100-192.168.194.200 -Action Block
+											       (Bloqueando do IP 100 até o 200)
+
+
+Remover uma Regra Específica do Firewall:
+
+Remove-NetFirewallRule -DisplayName "Permitir HTTP"
+			(Trocar pela regra que quiser remover)

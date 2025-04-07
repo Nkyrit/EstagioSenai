@@ -1,0 +1,96 @@
+Como trocar de NAT para Bridge no VMware Workstation Pro
+✅ 1. Desligue a VM
+Antes de alterar a rede:
+
+Desligue completamente a máquina virtual (não só suspenda).
+
+Isso evita conflitos na hora da troca.
+
+⚙️ 2. Acesse as configurações da VM
+No VMware Workstation Pro, selecione sua VM na lista.
+
+Clique em “Edit virtual machine settings” (ou clique com botão direito > Settings).
+
+Na aba Hardware, clique em “Network Adapter”.
+
+🔁 3. Alterar o modo de rede para Bridge
+No painel da direita:
+
+Marque a opção:
+✅ Bridged: Connected directly to the physical network
+
+Isso conecta a VM diretamente à mesma rede do seu computador (host), como se fosse outro dispositivo na mesma rede.
+
+⚠️ 4. (Importante) Clicar em "Configure Adapters…" (caso esteja cinza, pule)
+Clique em “Configure Adapters…”
+
+Certifique-se de selecionar o adaptador de rede que está com internet ativa no host.
+
+Exemplo: Intel(R) Wi-Fi 6 AX201 160MHz se você está usando Wi-Fi
+Ou Realtek PCIe GBE Family Controller se estiver usando cabo (Ethernet)
+
+Isso evita que a VM tente usar um adaptador físico sem conexão.
+
+✅ 5. Clique em OK para salvar
+Após configurar o adaptador bridge, clique em OK para aplicar a alteração.
+
+🖥️ 6. Inicie a VM e pegue novo IP
+Ligue a máquina virtual novamente.
+
+Agora, dentro da VM, abra o PowerShell ou prompt de comando e rode:
+
+powershell
+Copiar
+Editar
+ipconfig /release
+ipconfig /renew
+Isso força a VM a pedir um novo IP da rede (agora bridge).
+
+🔎 7. Verifique se pegou IP válido
+Rode:
+
+powershell
+Copiar
+Editar
+ipconfig
+Se o IP for algo como 192.168.x.x, 10.x.x.x, ou 172.16.x.x, está tudo certo.
+
+⚠️ Se o IP estiver como 169.254.x.x, a VM não conseguiu falar com o DHCP da rede. Nesse caso:
+
+Certifique-se que:
+
+O Wi-Fi ou Ethernet do host está conectado e funcionando.
+
+Você selecionou o adaptador correto no passo 4.
+
+O roteador da rede tem DHCP ativado.
+
+🧪 8. Teste a conexão
+Rode:
+
+cmd
+Copiar
+Editar
+ping 8.8.8.8
+ping www.google.com
+Se os dois funcionarem → internet 100% funcional com Bridge ✅
+Se o primeiro funcionar e o segundo não → problema no DNS (a gente resolve rapidinho).
+
+☑️ Finalizando
+Agora sua VM está em modo bridge, recebendo IP diretamente do roteador ou switch, como se fosse um PC real na rede.
+
+Isso é essencial pra:
+
+Testes realistas de rede
+
+Comunicação com outros dispositivos
+
+Simular clientes/servidores reais
+
+Se quiser, posso te ajudar a:
+
+Fixar IP na VM
+
+Fazer NAT + bridge no mesmo ambiente
+
+Testar firewall e sniffing de tráfego

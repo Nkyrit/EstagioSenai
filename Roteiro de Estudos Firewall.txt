@@ -1,5 +1,7 @@
 Roteiro de Estudos Firewall:
 
+Antes de Executar os códigos, altere a conexão da sua máquina de NAT para BRIDGE.
+
 Execute o PowerShell como Administrador.
 
 Se quiser verificar os perfis disponíveis e os detalhes da rede atual, use:

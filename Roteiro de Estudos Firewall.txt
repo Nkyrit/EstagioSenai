@@ -38,11 +38,11 @@ Criar uma regra para bloquear o tráfego na porta 8080 (HTTP):
 
 New-NetFirewallRule -DisplayName "Bloquear HTTP" -Direction Inbound -Protocol TCP -LocalPort 8080 -Action Block
 
-Podemos testar isso com um servidor Python: python -m http.server 8080
+Podemos testar isso com um servidor Python: python -m http.server 8080 --bind 0.0.0.0
 
 Agora, de outra máquina ou dispositivo na mesma rede, você pode testar se o servidor está acessível.
 
-http://192.168.194.132:8080
+http://172.16.25.197:8080
 
 
 Permitir Tráfego para um Programa Específico (Exemplo: Opera Gx)
@@ -54,14 +54,14 @@ New-NetFirewallRule -DisplayName "Bloquear Navegador" -Direction Outbound -Progr
 
 
 Permitir Tráfego de um IP Específico:
-New-NetFirewallRule -DisplayName "Permitir IP IN" -Direction Inbound -Action Allow -RemoteAddress 192.168.194.132 -Protocol Any
+New-NetFirewallRule -DisplayName "Permitir IP IN" -Direction Inbound -Action Allow -RemoteAddress 172.16.25.188 -Protocol Any
 									    (Troque o IP pelo qual você quer permitir)
 Bloquear IP Específico:
 New-NetFirewallRule -DisplayName "Bloquear IP IN" -Direction Inbound -Action Block -RemoteAddress 172.16.25.188 -Protocol Any
 
 										 (Troque o IP pelo qual você quer bloquear)
 Pela máquina bloqueada testar use:
-http://192.168.194.138:8080
+http://172.16.25.197:8080
      (IP da máquina host)
 
 Permitir Tráfego em uma Porta Específica:

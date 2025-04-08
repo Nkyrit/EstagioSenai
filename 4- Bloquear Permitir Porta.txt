@@ -18,5 +18,5 @@ New-NetFirewallRule -DisplayName "Permitir Porta" -Direction Inbound -Protocol T
 New-NetFirewallRule -DisplayName "Bloquear Porta" -Direction Inbound -Protocol TCP -LocalPort 445 -Action Block
 
 🧪 Para testar, abra o Explorador de Arquivos na sua máquina física e digite:
-\\192.168.194.138
+\\172.16.25.197
   (IP da sua máquina virtual)

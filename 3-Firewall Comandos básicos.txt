@@ -1,0 +1,19 @@
+🔥 Ativar o firewall para um perfil específico:
+Set-NetFirewallProfile -Profile (Escolha o perfil, Domain, Public ou Private) -Enabled True
+
+💡 Exemplo:
+Set-NetFirewallProfile -Profile Public -Enabled True
+
+🛑 Desativar o firewall para um perfil específico:
+Set-NetFirewallProfile -Profile (Escolha o perfil, Domain, Public ou Private) -Enabled False
+
+📋 Listar todas as regras do firewall:
+Get-NetFirewallRule
+
+❌ Remover uma regra específica do firewall:
+Remove-NetFirewallRule -DisplayName "Permitir HTTP"
+  (Trocar pela regra que quiser remover)
+
+🔄 Resetar as regras do firewall para o padrão:
+netsh advfirewall reset
+

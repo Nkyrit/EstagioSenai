@@ -1,0 +1,14 @@
+🟢 Permitir tráfego de um IP específico:
+New-NetFirewallRule -DisplayName "Permitir IP IN" -Direction Inbound -Action Allow -RemoteAddress 172.16.25.188 -Protocol Any
+  (Troque o IP pelo qual você quer permitir)
+
+🔴 Bloquear IP específico:
+New-NetFirewallRule -DisplayName "Bloquear IP IN" -Direction Inbound -Action Block -RemoteAddress 172.16.25.188 -Protocol Any
+  (Troque o IP pelo qual você quer bloquear)
+
+🧪 Para testar pela máquina bloqueada, use:
+http://172.16.25.197:8080
+  (IP da máquina host)
+------------------------------------------------
+New-NetFirewallRule -DisplayName "Bloquear IPS" -Direction Inbound -Action Block -RemoteAddress 172.16.25.187,172.16.25.188 -Protocol Any
+										(Pode ser substituído também por, 172.16.25.187-172.16.25.196)

@@ -1,0 +1,22 @@
+✅ Criar uma regra para permitir tráfego na porta 8080 (HTTP):
+New-NetFirewallRule -DisplayName "Liberar Porta 8080" -Direction Inbound -LocalPort 8080 -Protocol TCP -Action Allow
+  ("Liberar Porta 8080" pode ser trocado por outro nome. Isso vale para os outros comandos também.)
+
+🚫 Criar uma regra para bloquear o tráfego na porta 8080 (HTTP):
+New-NetFirewallRule -DisplayName "Bloquear HTTP" -Direction Inbound -Protocol TCP -LocalPort 8080 -Action Block
+
+🧪 Podemos testar isso com um servidor Python:
+python -m http.server 8080 --bind 0.0.0.0
+
+🌐 Agora, de outra máquina ou dispositivo na mesma rede, você pode testar se o servidor está acessível:
+http://172.16.25.197:8080
+----------------------------------------------------------
+🟢 Permitir tráfego em uma porta específica:
+New-NetFirewallRule -DisplayName "Permitir Porta" -Direction Inbound -Protocol TCP -LocalPort 445 -Action Allow
+
+🔴 Bloquear tráfego em uma porta específica:
+New-NetFirewallRule -DisplayName "Bloquear Porta" -Direction Inbound -Protocol TCP -LocalPort 445 -Action Block
+
+🧪 Para testar, abra o Explorador de Arquivos na sua máquina física e digite:
+\\192.168.194.138
+  (IP da sua máquina virtual)

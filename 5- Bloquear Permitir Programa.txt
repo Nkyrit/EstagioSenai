@@ -1,0 +1,6 @@
+🟢 Permitir tráfego para um programa específico (Exemplo: Opera GX):
+New-NetFirewallRule -DisplayName "Permitir Navegador" -Direction Inbound -Program "C:\Users\sherlock\AppData\Local\Programs\Opera GX\opera.exe" -Action Allow
+  ("Não esqueça de trocar o local do aplicativo que quiser habilitar")
+
+🔴 Bloquear tráfego para um programa específico (Exemplo: Opera GX):
+New-NetFirewallRule -DisplayName "Bloquear Navegador" -Direction Outbound -Program "C:\Users\sherlock\AppData\Local\Programs\Opera GX\opera.exe" -Action Block

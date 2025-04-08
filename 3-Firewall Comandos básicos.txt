@@ -1,3 +1,5 @@
+Execute o PowerShell como Administrador
+
 🔥 Ativar o firewall para um perfil específico:
 Set-NetFirewallProfile -Profile (Escolha o perfil, Domain, Public ou Private) -Enabled True
 
